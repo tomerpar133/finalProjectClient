@@ -20,6 +20,7 @@ using namespace std;
 class Client {
 	TCPSocket* tcpServer;
 	string status;
+	bool connectedToServer;
 
 public:
 	Client();

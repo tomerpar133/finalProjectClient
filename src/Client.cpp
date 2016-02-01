@@ -11,6 +11,7 @@ Client::Client() {
 	// TODO Auto-generated constructor stub
 	this->status = "";
 	this->tcpServer = NULL;
+	this->connectedToServer = false;
 
 }
 
@@ -22,6 +23,7 @@ void Client::connectToServer(string ip)
 {
 	cout << "connecting to server in ip " << ip << endl;
 	this->tcpServer = new TCPSocket(ip, MSNGR_PORT);
+	this->connectedToServer = true;
 }
 
 void Client::listUsers()
@@ -96,7 +98,7 @@ string Client::getStatus()
 
 bool Client::isConnected()
 {
-	return this->status.length() != 0;
+	return this->connectedToServer;
 }
 
 void Client::closeSession()
