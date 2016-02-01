@@ -40,9 +40,9 @@ void ClientUtils::sendCommand(TCPSocket* peer, int command){
 
 void ClientUtils::sendData(TCPSocket* peer, string msg){
 	//TODO: send string to socket
-	int msgLength = htonl(msg.length());
+	int msgLength = htonl(msg.length() + 1);
 	peer->send((char*)&msgLength, sizeof(int));
-	peer->send(msg.c_str(), msg.length());
+	peer->send(msg.c_str(), msg.length() + 1);
 }
 
 string ClientUtils::readData(UDPSocket* peer){

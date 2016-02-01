@@ -30,6 +30,8 @@
 #define LIST_ROOMS					11
 #define LIST_ROOM_USERS				12
 #define OPEN_ROOM					13
+#define SUCCESS						"SUCCESS"
+#define FAILURE						"FAILURE"
 
 #define TEST_PEER_NAME "test"
 #define SESSION_REFUSED_MSG "Connection to peer refused, peer might be busy or disconnected, try again later"
