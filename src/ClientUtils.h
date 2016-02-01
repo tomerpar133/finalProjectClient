@@ -17,32 +17,32 @@ class ClientUtils {
 public:
 	ClientUtils();
 	virtual ~ClientUtils();
-	static int readCommandFromPeer(TCPSocket* peer);
+	static int readCommand(TCPSocket* peer);
 
 	/**
 	 * read data from peer
 	 */
-	static string readDataFromPeer(TCPSocket* peer);
+	static string readData(TCPSocket* peer);
 
 	/**
 	 * send command to peer
 	 */
-	static void sendCommandToPeer(TCPSocket* peer, int command);
+	static void sendCommand(TCPSocket* peer, int command);
 
 	/**
 	 * send data to peer
 	 */
-	static void sendDataToPeer(TCPSocket* peer, string msg);
+	static void sendData(TCPSocket* peer, string msg);
 
 	/**
 	 * read udp data from peer
 	 */
-	static string readDataFromPeer(UDPSocket* peer);
+	static string readData(UDPSocket* peer);
 
 	/**
 	 * send udp data to peer
 	 */
-	static void sendDataToPeer(UDPSocket* peer, string msg);
+	static void sendData(UDPSocket* peer, string msg);
 
 };
 

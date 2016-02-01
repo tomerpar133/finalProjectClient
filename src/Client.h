@@ -12,22 +12,28 @@
 #include <string>
 #include <vector>
 #include <stdlib.h>
+#include "TCPSocket.h"
+#include "TCPMessengerProtocol.h"
+#include "ClientUtils.h"
 using namespace std;
 
 class Client {
+	TCPSocket* tcpServer;
+	string status;
+
 public:
 	Client();
 	virtual ~Client();
 
 	void connectToServer(string ip);
 
-	vector<string> listUsers();
+	void listUsers();
 
-	vector<string> listConnectedUsers();
+	void listConnectedUsers();
 
-	vector<string> listRooms();
+	void listRooms();
 
-	vector<string> listRoomUsers(string room);
+	void listRoomUsers(string room);
 
 	void login(string username, string password);
 
@@ -39,7 +45,9 @@ public:
 
 	void sendMessage(string message);
 
-	void status();
+	string getStatus();
+
+	bool isConnected();
 
 	void closeSession();
 

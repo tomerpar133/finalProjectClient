@@ -9,6 +9,8 @@
 
 Client::Client() {
 	// TODO Auto-generated constructor stub
+	this->status = "";
+	this->tcpServer = NULL;
 
 }
 
@@ -19,40 +21,56 @@ Client::~Client() {
 void Client::connectToServer(string ip)
 {
 	cout << "connecting to server in ip " << ip << endl;
+	this->tcpServer = new TCPSocket(ip, MSNGR_PORT);
 }
 
-vector<string> Client::listUsers()
+void Client::listUsers()
 {
 	cout << "printing the user list" << endl;
-	return vector<string>();
+	ClientUtils::sendCommand(this->tcpServer, LIST_USERS);
+	string usersList = ClientUtils::readData(this->tcpServer);
+	cout << usersList;
 }
 
-vector<string> Client::listConnectedUsers()
+void Client::listConnectedUsers()
 {
 	cout << "printing the connected user list" << endl;
-	return vector<string>();
+	ClientUtils::sendCommand(this->tcpServer, LIST_CONNECTED_USERS);
+	string connectedUsersList = ClientUtils::readData(this->tcpServer);
+	cout << connectedUsersList;
 }
 
-vector<string> Client::listRooms()
+void Client::listRooms()
 {
 	cout << "printing the rooms" << endl;
-	return vector<string>();
+	ClientUtils::sendCommand(this->tcpServer, LIST_ROOMS);
+	string roomsList = ClientUtils::readData(this->tcpServer);
+	cout << roomsList;
 }
 
-vector<string> Client::listRoomUsers(string room)
+void Client::listRoomUsers(string room)
 {
 	cout << "showing users in room " << room << endl;
-	return vector<string>();
+	ClientUtils::sendCommand(this->tcpServer, LIST_ROOM_USERS);
+	ClientUtils::sendData(this->tcpServer, room);
+	string roomsList = ClientUtils::readData(this->tcpServer);
+	cout << roomsList;
 }
 
 void Client::login(string username, string password)
 {
 	cout << "login user: " << username << ", pass: " << password << endl;
+	ClientUtils::sendCommand(this->tcpServer, LOGIN);
+	ClientUtils::sendData(this->tcpServer, username);
+	ClientUtils::sendData(this->tcpServer, password);
 }
 
 void Client::registerUser(string username, string password)
 {
 	cout << "register user: " << username << ", pass: " << password << endl;
+	ClientUtils::sendCommand(this->tcpServer, REGISTER);
+	ClientUtils::sendData(this->tcpServer, username);
+	ClientUtils::sendData(this->tcpServer, password);
 }
 
 void Client::openSession(string username)
@@ -70,9 +88,15 @@ void Client::sendMessage(string message)
 	cout << "sending message: " << message << endl;
 }
 
-void Client::status()
+string Client::getStatus()
 {
 	cout << "printing the status" << endl;
+	return this->status;
+}
+
+bool Client::isConnected()
+{
+	return this->status.length() != 0;
 }
 
 void Client::closeSession()

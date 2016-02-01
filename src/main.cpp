@@ -9,11 +9,12 @@
 #include <map>
 #include <string>
 #include <stdlib.h>
-#include "Client.h";
+#include "Client.h"
 
 using namespace std;
 typedef void (*commandHandler)();
 map<string, commandHandler> commandsMap;
+map<string, commandHandler> offlineCommandsMap;
 Client client;
 
 void printInstructions()
@@ -46,19 +47,16 @@ void connectToServer()
 
 void listUsers()
 {
-//	cout << "printing the user list" << endl;
 	client.listUsers();
 }
 
 void listConnectedUsers()
 {
-//	cout << "printing the connected user list" << endl;
 	client.listConnectedUsers();
 }
 
 void listRooms()
 {
-//	cout << "printing the rooms" << endl;
 	client.listRooms();
 }
 
@@ -66,7 +64,6 @@ void listRoomUsers()
 {
 	string room;
 	cin >> room;
-//	cout << "showing users in room " << room << endl;
 	client.listRoomUsers(room);
 }
 
@@ -76,7 +73,6 @@ void login()
 	string password;
 	cin >> username;
 	cin >> password;
-//	cout << "login user: " << username << ", pass: " << password << endl;
 	client.login(username, password);
 }
 
@@ -86,8 +82,6 @@ void registerUser()
 	string password;
 	cin >> username;
 	cin >> password;
-//	cout << "register user: " << username << ", pass: " << password << endl;
-
 	client.registerUser(username, password);
 }
 
@@ -95,7 +89,6 @@ void openSession()
 {
 	string username;
 	cin >> username;
-//	cout << "opening session with user: " << username << endl;
 	client.openSession(username);
 }
 
@@ -103,7 +96,6 @@ void openRoom()
 {
 	string room;
 	cin >> room;
-//	cout << "entering chat room: " << room << endl;
 	client.openRoom(room);
 }
 
@@ -111,26 +103,22 @@ void sendMessage()
 {
 	string message;
 	cin >> message;
-//	cout << "sending message: " << message << endl;
 	client.sendMessage(message);
 }
 
 void status()
 {
-//	cout << "printing the status" << endl;
-	client.status();
+	client.getStatus();
 }
 
 void closeSession()
 {
-//	cout << "closing the session" << endl;
 	client.closeSession();
 }
 
 void disconnectFromServer()
 {
 
-//	cout << "disconnecting from server" << endl;
 	client.disconnectFromServer();
 }
 
@@ -144,7 +132,6 @@ int main()
 	cout<<"Welcome to the client"<<endl;
 	printInstructions();
 
-	commandsMap["c"] = connectToServer;
 	commandsMap["lu"] = listUsers;
 	commandsMap["lcu"] = listConnectedUsers;
 	commandsMap["lr"] = listRooms;
@@ -154,18 +141,26 @@ int main()
 	commandsMap["o"] = openSession;
 	commandsMap["or"] = openRoom;
 	commandsMap["s"] = sendMessage;
-	commandsMap["l"] = status;
 	commandsMap["cs"] = closeSession;
 	commandsMap["d"] = disconnectFromServer;
-	commandsMap["x"] = kill;
+	offlineCommandsMap["c"] = connectToServer;
+	offlineCommandsMap["l"] = status;
+	offlineCommandsMap["x"] = kill;
 
 	while(true){
 		string command;
 		cin >> command;
 
-		if (commandsMap.find(command) != commandsMap.end())
+		if (offlineCommandsMap.find(command) != offlineCommandsMap.end())
 		{
-			commandsMap[command]();
+			offlineCommandsMap[command]();
+		}
+		else if (commandsMap.find(command) != commandsMap.end())
+		{
+			if (client.isConnected())
+				commandsMap[command]();
+			else
+				cout << "Invalid operation, connect to a server first" << endl;
 		}
 		else
 		{
