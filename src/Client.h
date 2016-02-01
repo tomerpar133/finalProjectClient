@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <stdlib.h>
 using namespace std;
 
 class Client {
@@ -19,13 +21,13 @@ public:
 
 	void connectToServer(string ip);
 
-	void listUsers();
+	vector<string> listUsers();
 
-	void listConnectedUsers();
+	vector<string> listConnectedUsers();
 
-	void listRooms();
+	vector<string> listRooms();
 
-	void listRoomUsers(string room);
+	vector<string> listRoomUsers(string room);
 
 	void login(string username, string password);
 

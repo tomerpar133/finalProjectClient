@@ -21,24 +21,28 @@ void Client::connectToServer(string ip)
 	cout << "connecting to server in ip " << ip << endl;
 }
 
-void Client::listUsers()
+vector<string> Client::listUsers()
 {
 	cout << "printing the user list" << endl;
+	return vector<string>();
 }
 
-void Client::listConnectedUsers()
+vector<string> Client::listConnectedUsers()
 {
 	cout << "printing the connected user list" << endl;
+	return vector<string>();
 }
 
-void Client::listRooms()
+vector<string> Client::listRooms()
 {
 	cout << "printing the rooms" << endl;
+	return vector<string>();
 }
 
-void Client::listRoomUsers(string room)
+vector<string> Client::listRoomUsers(string room)
 {
 	cout << "showing users in room " << room << endl;
+	return vector<string>();
 }
 
 void Client::login(string username, string password)

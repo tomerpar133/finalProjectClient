@@ -9,10 +9,12 @@
 #include <map>
 #include <string>
 #include <stdlib.h>
+#include "Client.h";
 
 using namespace std;
 typedef void (*commandHandler)();
 map<string, commandHandler> commandsMap;
+Client client;
 
 void printInstructions()
 {
@@ -38,29 +40,34 @@ void connectToServer()
 {
 	string ip;
 	cin >> ip;
-	cout << "connecting to server in ip " << ip << endl;
+
+	client.connectToServer(ip);
 }
 
 void listUsers()
 {
-	cout << "printing the user list" << endl;
+//	cout << "printing the user list" << endl;
+	client.listUsers();
 }
 
 void listConnectedUsers()
 {
-	cout << "printing the connected user list" << endl;
+//	cout << "printing the connected user list" << endl;
+	client.listConnectedUsers();
 }
 
 void listRooms()
 {
-	cout << "printing the rooms" << endl;
+//	cout << "printing the rooms" << endl;
+	client.listRooms();
 }
 
 void listRoomUsers()
 {
 	string room;
 	cin >> room;
-	cout << "showing users in room " << room << endl;
+//	cout << "showing users in room " << room << endl;
+	client.listRoomUsers(room);
 }
 
 void login()
@@ -69,7 +76,8 @@ void login()
 	string password;
 	cin >> username;
 	cin >> password;
-	cout << "login user: " << username << ", pass: " << password << endl;
+//	cout << "login user: " << username << ", pass: " << password << endl;
+	client.login(username, password);
 }
 
 void registerUser()
@@ -78,42 +86,52 @@ void registerUser()
 	string password;
 	cin >> username;
 	cin >> password;
-	cout << "register user: " << username << ", pass: " << password << endl;
+//	cout << "register user: " << username << ", pass: " << password << endl;
+
+	client.registerUser(username, password);
 }
 
 void openSession()
 {
 	string username;
 	cin >> username;
-	cout << "opening session with user: " << username << endl;
+//	cout << "opening session with user: " << username << endl;
+	client.openSession(username);
 }
 
 void openRoom()
 {
 	string room;
 	cin >> room;
-	cout << "entering chat room: " << room << endl;
+//	cout << "entering chat room: " << room << endl;
+	client.openRoom(room);
 }
 
 void sendMessage()
 {
 	string message;
-	cout << "sending message: " << message << endl;
+	cin >> message;
+//	cout << "sending message: " << message << endl;
+	client.sendMessage(message);
 }
 
 void status()
 {
-	cout << "printing the status" << endl;
+//	cout << "printing the status" << endl;
+	client.status();
 }
 
 void closeSession()
 {
-	cout << "closing the session" << endl;
+//	cout << "closing the session" << endl;
+	client.closeSession();
 }
 
 void disconnectFromServer()
 {
-	cout << "disconnecting from server" << endl;
+
+//	cout << "disconnecting from server" << endl;
+	client.disconnectFromServer();
 }
 
 void kill()
