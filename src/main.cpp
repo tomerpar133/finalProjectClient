@@ -26,6 +26,10 @@ void printInstructions()
 	cout<<"register <user> <password> - register the new user with the given password and login the user."<<endl;
 	cout<<"o <username> - open a session with the user"<<endl;
 	cout<<"or <room name> - enter a chat room"<<endl;
+	cout<<"s <message> - send a message"<<endl;
+	cout<<"l - print the current status of the client"<<endl;
+	cout<<"cs - disconnect the open session / exit from a room"<<endl;
+	cout<<"d - disconnect from server"<<endl;
 	cout<<"x - exit"<<endl;
 	cout<<"----------------------------------------------------------"<<endl;
 }
@@ -91,6 +95,27 @@ void openRoom()
 	cout << "entering chat room: " << room << endl;
 }
 
+void sendMessage()
+{
+	string message;
+	cout << "sending message: " << message << endl;
+}
+
+void status()
+{
+	cout << "printing the status" << endl;
+}
+
+void closeSession()
+{
+	cout << "closing the session" << endl;
+}
+
+void disconnectFromServer()
+{
+	cout << "disconnecting from server" << endl;
+}
+
 void kill()
 {
 	exit(0);
@@ -110,6 +135,10 @@ int main()
 	commandsMap["register"] = registerUser;
 	commandsMap["o"] = openSession;
 	commandsMap["or"] = openRoom;
+	commandsMap["s"] = sendMessage;
+	commandsMap["l"] = status;
+	commandsMap["cs"] = closeSession;
+	commandsMap["d"] = disconnectFromServer;
 	commandsMap["x"] = kill;
 
 	while(true){

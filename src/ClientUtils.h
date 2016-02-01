@@ -5,18 +5,18 @@
  *      Author: tomer
  */
 
-#ifndef MESSENGERCLIENT_H_
-#define MESSENGERCLIENT_H_
+#ifndef CLIENTUTILS_H_
+#define CLIENTUTILS_H_
 
 #include <string>
 #include "TCPSocket.h"
 #include "UDPSocket.h"
 #include "TCPMessengerProtocol.h"
 
-class MessengerClient {
+class ClientUtils {
 public:
-	MessengerClient();
-	virtual ~MessengerClient();
+	ClientUtils();
+	virtual ~ClientUtils();
 	static int readCommandFromPeer(TCPSocket* peer);
 
 	/**
@@ -46,4 +46,4 @@ public:
 
 };
 
-#endif /* MESSENGERCLIENT_H_ */
+#endif /* CLIENTUTILS_H_ */

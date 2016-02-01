@@ -25,6 +25,11 @@
 #define SESSION_ESTABLISHED			6
 #define REGISTER					7
 #define LOGIN						8
+#define LIST_USERS					9
+#define LIST_CONNECTED_USERS		10
+#define LIST_ROOMS					11
+#define LIST_ROOM_USERS				12
+#define OPEN_ROOM					13
 
 #define TEST_PEER_NAME "test"
 #define SESSION_REFUSED_MSG "Connection to peer refused, peer might be busy or disconnected, try again later"
