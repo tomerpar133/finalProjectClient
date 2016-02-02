@@ -43,6 +43,8 @@ public:
 	 * send udp data to peer
 	 */
 	static void sendData(UDPSocket* peer, string msg);
+	
+	static bool repliedSuccess(TCPSocket* socket);
 
 };
 

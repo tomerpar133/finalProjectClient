@@ -24,7 +24,6 @@
 using namespace std;
 
 class TCPSocket{
-	//TODO: declare class properties
 	int socketFd;
 	struct sockaddr_in myAddress;
 	struct sockaddr_in peerAddress;

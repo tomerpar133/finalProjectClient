@@ -8,7 +8,6 @@
 #include "ServerListener.h"
 
 ServerListener::ServerListener(TCPSocket* server, Client* client) {
-	// TODO Auto-generated constructor stub
 	this->tcpServer = server;
 	this->client = client;
 }
@@ -36,20 +35,28 @@ void ServerListener::run()
 
 void ServerListener::execute(int code)
 {
+	// TODO: add functionality
 	switch(code)
 	{
-	case OPEN_SESSION_WITH_PEER:
-
-		break;
-
-	case SEND_MSG_TO_PEER:
-
-		break;
-
-	case CLOSE_ROOM:
-
-		break;
-
+		case OPEN_SESSION_WITH_PEER:
+	
+			break;
+	
+		case SEND_MSG_TO_PEER:
+	
+			break;
+	
+		case CLOSE_ROOM:
+	
+			break;
+		case USER_ENTER_ROOM:
+			
+			break;
+		case USER_LEAVE_ROOM:
+			
+			break;
+		default:
+			break;
 	}
 }
 

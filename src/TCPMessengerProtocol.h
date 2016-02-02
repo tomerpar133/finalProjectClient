@@ -14,6 +14,7 @@
  * and optionally data follows in the format [Data length 4 byte int][ Data ]
  */
 #define MSNGR_PORT 3346
+#define PEER_PORT 3345
 #define MAX_MSG_SIZE 1024
 #define TIMEOUT 10
 
@@ -31,6 +32,8 @@
 #define LIST_ROOM_USERS				12
 #define OPEN_ROOM					13
 #define CLOSE_ROOM					14
+#define USER_ENTER_ROOM				15
+#define USER_LEAVE_ROOM				16
 #define SUCCESS						"SUCCESS"
 #define FAILURE						"FAILURE"
 

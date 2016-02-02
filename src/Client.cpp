@@ -15,8 +15,10 @@ Client::Client() {
 }
 
 Client::~Client() {
-	// TODO Auto-generated destructor stub
-	delete this->tcpServer;
+	if (this->tcpServer)
+		delete this->tcpServer;
+	if (this->conferenceMngr)
+		delete this->conferenceMngr;
 }
 
 void Client::connectToServer(string ip)
@@ -57,48 +59,44 @@ void Client::listRoomUsers(string room)
 
 void Client::login(string username, string password)
 {
-	cout << "login user: " << username << ", pass: " << password << endl;
+	cout << "{ Login user: " << username << ", Pass: " << password << " }" << endl;
 	ClientUtils::sendCommand(this->tcpServer, LOGIN);
 	ClientUtils::sendData(this->tcpServer, username);
 	ClientUtils::sendData(this->tcpServer, password);
 
-	string loginResult = ClientUtils::readData(this->tcpServer);
-
-	if (loginResult == SUCCESS)
+	if (ClientUtils::repliedSuccess(this->tcpServer))
 	{
 		this->username = username;
-		cout << "you are logged in as " << this->username << endl;
+		cout << "Logged in as " << this->username << endl;
 	}
 	else
 	{
-		cout << "error in login, please try again" << endl;
+		cout << "Error in login, please try again" << endl;
 	}
 }
 
 void Client::registerUser(string username, string password)
 {
-	cout << "register user: " << username << ", pass: " << password << endl;
+	cout << "{ Register user: " << username << ", Pass: " << password << " }" << endl;
 	ClientUtils::sendCommand(this->tcpServer, REGISTER);
 	ClientUtils::sendData(this->tcpServer, username);
 	ClientUtils::sendData(this->tcpServer, password);
 
-	string registerResult = ClientUtils::readData(this->tcpServer);
-
-	if (registerResult == SUCCESS)
+	if (ClientUtils::repliedSuccess(this->tcpServer))
 	{
 		this->username = username;
-		cout << "you are registered and logged in as " << this->username << endl;
+		cout << "Registered successfully and logged in as " << this->username << endl;
 	}
 	else
 	{
-		cout << "username is already taken, please use another one" << endl;
+		cout << "Username is already taken, please pick another" << endl;
 	}
 }
 
 void Client::openSession(string username)
 {
 	deleteOldConnections();
-	cout << "opening session with user: " << username << endl;
+	cout << "{ Opening session with user: " << username << " }" << endl;
 	ClientUtils::sendCommand(this->tcpServer, OPEN_SESSION_WITH_PEER);
 	ClientUtils::sendData(this->tcpServer, username);
 
@@ -108,19 +106,32 @@ void Client::openSession(string username)
 	{
 		this->status = "connected to " + username;
 		this->connectionStatus = CONNECTED_TO_SESSION;
+		cout << "Session established." << endl;
 	}
 	else
 	{
-		cout << SESSION_REFUSED_MSG;
+		cout << SESSION_REFUSED_MSG << endl;
 	}
 }
 
 void Client::openRoom(string room)
 {
 	deleteOldConnections();
-	cout << "entering chat room: " << room << endl;
-	this->status = "connected to room " + room;
-	this->connectionStatus = CONNECTED_TO_ROOM;
+	cout << "{ Entering chat room: " << room << " }" << endl;
+	ClientUtils::sendCommand(this->tcpServer, OPEN_ROOM);
+	ClientUtils::sendData(this->tcpServer, room);
+	
+	if (ClientUtils::repliedSuccess(this->tcpServer))
+	{
+		this->status = "connected to room " + room;
+		this->connectionStatus = CONNECTED_TO_ROOM;
+		cout << "Entered room: " << room << endl;
+		// Execute the room manager
+	}
+	else
+	{
+		cout << "Could not enter chat room." << endl;
+	}
 }
 
 void Client::sendMessage(string message)
@@ -130,7 +141,7 @@ void Client::sendMessage(string message)
 	ClientUtils::sendData(this->tcpServer, message);
 }
 
-string Client::getStatus()
+string Client::getStatusDescription()
 {
 	cout << "printing the status: " << this->status << endl;
 	return this->status;
@@ -151,7 +162,7 @@ void Client::closeSession()
 
 void Client::disconnectFromServer()
 {
-	cout << "disconnecting from server" << endl;
+	cout << "{ Disconnected from server }" << endl;
 	this->connectionStatus = NOT_CONNECTED;
 	ClientUtils::sendCommand(this->tcpServer, EXIT);
 	this->status = "not connected";
@@ -159,7 +170,14 @@ void Client::disconnectFromServer()
 
 void Client::closeRoom()
 {
-	cout << "closing room" << endl;
+	cout << "Closing room" << endl;
+	
+	if (this->conferenceMngr)
+	{
+		delete conferenceMngr;
+		conferenceMngr = NULL;
+	}
+	
 	ClientUtils::sendCommand(this->tcpServer, CLOSE_ROOM);
 	this->status = "not connected";
 	this->connectionStatus = CONNECTED_TO_SERVER;
@@ -176,6 +194,16 @@ void Client::deleteOldConnections()
 	{
 		closeRoom();
 	}
+}
+
+int Client::getConnectionStatus()
+{
+	return this->connectionStatus;
+}
+
+ConferenceManager* Client::getConferenceManager()
+{
+	return this->conferenceMngr;
 }
 
 void Client::printListString(string list, string description)

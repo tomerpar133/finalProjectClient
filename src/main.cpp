@@ -108,7 +108,7 @@ void sendMessage()
 
 void status()
 {
-	client.getStatus();
+	client.getStatusDescription();
 }
 
 void closeSession()

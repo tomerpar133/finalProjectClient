@@ -21,10 +21,13 @@
 #include "TCPMessengerProtocol.h"
 #include "ClientUtils.h"
 #include "ServerListener.h"
+#include "ConferenceManager.h"
+
 using namespace std;
 
 class Client {
 	TCPSocket* tcpServer;
+	ConferenceManager* conferenceMngr;
 	string status;
 	string username;
 	int connectionStatus;
@@ -56,7 +59,11 @@ public:
 
 	void sendMessage(string message);
 
-	string getStatus();
+	string getStatusDescription();
+	
+	int getConnectionStatus();
+	
+	ConferenceManager* getConferenceManager();
 
 	bool isConnected();
 
