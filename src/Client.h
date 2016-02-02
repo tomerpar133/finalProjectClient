@@ -8,6 +8,11 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
+#define NOT_CONNECTED			0
+#define CONNECTED_TO_SERVER		1
+#define CONNECTED_TO_ROOM		2
+#define CONNECTED_TO_SESSION	3
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,13 +20,17 @@
 #include "TCPSocket.h"
 #include "TCPMessengerProtocol.h"
 #include "ClientUtils.h"
+#include "ServerListener.h"
 using namespace std;
 
 class Client {
 	TCPSocket* tcpServer;
 	string status;
 	string username;
-	bool connectedToServer;
+	int connectionStatus;
+
+	// todo: add serverlistener
+
 
 public:
 	Client();
@@ -55,6 +64,11 @@ public:
 
 	void disconnectFromServer();
 
+	void closeRoom();
+
+	void deleteOldConnections();
+
+	void printListString(string list, string description);
 };
 
 #endif /* CLIENT_H_ */

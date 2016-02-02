@@ -30,6 +30,7 @@
 #define LIST_ROOMS					11
 #define LIST_ROOM_USERS				12
 #define OPEN_ROOM					13
+#define CLOSE_ROOM					14
 #define SUCCESS						"SUCCESS"
 #define FAILURE						"FAILURE"
 
