@@ -13,7 +13,6 @@
 #include "TCPSocket.h"
 #include "Client.h"
 #include "ClientUtils.h"
-#include "TCPMessengerProtocol.h"
 
 class Client;
 class ServerListener : public MThread {

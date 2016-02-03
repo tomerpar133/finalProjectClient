@@ -42,7 +42,7 @@ public:
 	/**
 	 * send udp data to peer
 	 */
-	static void sendData(UDPSocket* peer, string msg);
+	static void sendData(UDPSocket* sender, string peerIp, string msg);
 	
 	static bool repliedSuccess(TCPSocket* socket);
 

@@ -19,23 +19,16 @@ void ConferenceManager::removeUser(string ip)
 
 void ConferenceManager::run()
 {
-	char messageBuffer[MAX_MSG_SIZE];
 	while(true)
 	{
-		messageBuffer[0] = 0;
-		this->socket.recv(messageBuffer, MAX_MSG_SIZE);
-		
-		if (messageBuffer[0] != 0)
-		{
-			cout << messageBuffer << endl;
-		}
+		cout << ClientUtils::readData(&this->socket) << endl;
 	}
 }
 
 void ConferenceManager::sendMessage(string message)
 {
 	for(std::map<string,string>::iterator iter = this->ipToUsernameMap.begin(); iter != this->ipToUsernameMap.end(); ++iter)
-		this->socket.sendTo(message, iter->first,PEER_PORT);
+		ClientUtils::sendData(&this->socket, iter->first, message);
 }
 
 ConferenceManager::~ConferenceManager()

@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <string.h>
+#include "ClientUtils.h"
 #include "UDPSocket.h"
 #include "MThread.h"
 #include "TCPMessengerProtocol.h"

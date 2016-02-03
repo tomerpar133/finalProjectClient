@@ -52,12 +52,11 @@ string ClientUtils::readData(UDPSocket* peer){
 	return msg;
 }
 
-void ClientUtils::sendData(UDPSocket* peer, string msg){
+void ClientUtils::sendData(UDPSocket* sender, string peerIp, string msg){
 	// send string to socket
 	int msgLength = htonl(msg.length());
-//	peer->sendTo((char*)&msgLength, peer->, sizeof(int));
-//	peer->sendTo(msg.c_str(), peer->, msg.length());
-	// todo: check with the cornflex
+	sender->sendTo((char*)&msgLength, peerIp, PEER_PORT);
+	sender->sendTo(msg.c_str(), peerIp, PEER_PORT);
 }
 
 bool ClientUtils::repliedSuccess(TCPSocket* socket)

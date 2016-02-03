@@ -12,6 +12,8 @@ Client::Client() {
 	this->tcpServer = NULL;
 	this->username = "";
 	this->connectionStatus = NOT_CONNECTED;
+	this->serverListener = NULL;
+	this->conferenceMngr = NULL;
 }
 
 Client::~Client() {
@@ -19,6 +21,8 @@ Client::~Client() {
 		delete this->tcpServer;
 	if (this->conferenceMngr)
 		delete this->conferenceMngr;
+	if (this->serverListener)
+		delete this->serverListener;
 }
 
 void Client::connectToServer(string ip)
@@ -26,6 +30,8 @@ void Client::connectToServer(string ip)
 	cout << "connecting to server in ip " << ip << endl;
 	this->tcpServer = new TCPSocket(ip, MSNGR_PORT);
 	this->connectionStatus = CONNECTED_TO_SERVER;
+	this->serverListener = new ServerListener(this->tcpServer, this);
+	this->serverListener->start();
 }
 
 void Client::listUsers()
@@ -126,7 +132,8 @@ void Client::openRoom(string room)
 		this->status = "connected to room " + room;
 		this->connectionStatus = CONNECTED_TO_ROOM;
 		cout << "Entered room: " << room << endl;
-		// Execute the room manager
+		this->conferenceMngr = new ConferenceManager(room);
+		this->conferenceMngr->start();
 	}
 	else
 	{
@@ -166,6 +173,11 @@ void Client::disconnectFromServer()
 	this->connectionStatus = NOT_CONNECTED;
 	ClientUtils::sendCommand(this->tcpServer, EXIT);
 	this->status = "not connected";
+
+	if (this->serverListener)
+	{
+		delete this->serverListener;
+	}
 }
 
 void Client::closeRoom()

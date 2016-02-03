@@ -24,15 +24,14 @@
 #include "ConferenceManager.h"
 
 using namespace std;
-
+class ServerListener;
 class Client {
 	TCPSocket* tcpServer;
 	ConferenceManager* conferenceMngr;
 	string status;
 	string username;
 	int connectionStatus;
-
-	// todo: add serverlistener
+	ServerListener* serverListener;
 
 
 public:
