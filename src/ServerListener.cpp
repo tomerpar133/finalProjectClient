@@ -21,16 +21,18 @@ void ServerListener::run()
 {
 	while (true)
 	{
-		if (!isServerSocketClosed())
+		//if (!isServerSocketClosed())
 		{
+			usleep(300000);
 			int code = ClientUtils::readCommand(this->tcpServer);
-			this->execute(code);
+			if (code)
+				this->execute(code);
 		}
-		else
+		/*else
 		{
 			this->client->disconnectFromServer();
 			break;
-		}
+		}*/
 	}
 }
 
@@ -45,12 +47,17 @@ void ServerListener::execute(int code)
 		case OPEN_SESSION_WITH_PEER:
 		{
 			string username = ClientUtils::readData(this->tcpServer);
-			this->client->openSession(username);
+			this->client->passiveOpenSession(username);
 			break;
 		}
+		case CLOSE_SESSION_WITH_PEER:
+			this->client->closeSession();
+			break;
 		case SEND_MSG_TO_PEER:
 		{
-			// if in session send to server if (in room) send to connference
+			// receive message from peer in session or from server
+			string message = ClientUtils::readData(this->tcpServer);
+			cout << message << endl;
 	
 			break;
 		}
@@ -74,6 +81,7 @@ void ServerListener::execute(int code)
 		}
 		default:
 		{
+			cout << "Unhandled command from server " << code << endl;
 			break;
 		}
 	}

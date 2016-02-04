@@ -14,7 +14,6 @@
 using namespace std;
 typedef void (*commandHandler)();
 map<string, commandHandler> commandsMap;
-map<string, commandHandler> offlineCommandsMap;
 Client client;
 
 void printInstructions()
@@ -102,18 +101,23 @@ void openRoom()
 void sendMessage()
 {
 	string message;
-	cin >> message;
+	getline(cin, message);
 	client.sendMessage(message);
 }
 
 void status()
 {
-	client.getStatusDescription();
+	cout << "[Status] " << client.getStatusDescription() << endl;
 }
 
 void closeSession()
 {
-	client.closeSession();
+	if (client.getConnectionStatus() == CONNECTED_TO_ROOM)
+		client.closeRoom();
+	else if (client.getConnectionStatus() == CONNECTED_TO_SESSION)
+		client.closeSession();
+	else
+		cout << "cs failed - not paired." << endl;
 }
 
 void disconnectFromServer()
@@ -143,32 +147,24 @@ int main()
 	commandsMap["s"] = sendMessage;
 	commandsMap["cs"] = closeSession;
 	commandsMap["d"] = disconnectFromServer;
-	offlineCommandsMap["c"] = connectToServer;
-	offlineCommandsMap["l"] = status;
-	offlineCommandsMap["x"] = kill;
+	commandsMap["c"] = connectToServer;
+	commandsMap["l"] = status;
+	commandsMap["x"] = kill;
 
 	while(true){
 		string command;
 		cin >> command;
 
-		if (offlineCommandsMap.find(command) != offlineCommandsMap.end())
+		if (commandsMap.find(command) != commandsMap.end())
 		{
-			offlineCommandsMap[command]();
-		}
-		else if (commandsMap.find(command) != commandsMap.end())
-		{
-			if (client.isConnected())
-				commandsMap[command]();
-			else
-				cout << "Invalid operation, connect to a server first" << endl;
+			commandsMap[command]();
 		}
 		else
 		{
-			cout<<"wrong input"<<endl;
+			cout<<"Unrecognized command."<<endl;
 			printInstructions();
 		}
 	}
 
 	return 0;
 }
-

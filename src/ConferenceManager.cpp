@@ -33,4 +33,5 @@ void ConferenceManager::sendMessage(string message)
 
 ConferenceManager::~ConferenceManager()
 {
+	this->socket.cclose();
 }

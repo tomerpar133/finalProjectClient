@@ -13,6 +13,8 @@
 #include "UDPSocket.h"
 #include "TCPMessengerProtocol.h"
 
+static pthread_mutex_t lock;
+
 class ClientUtils {
 public:
 	ClientUtils();

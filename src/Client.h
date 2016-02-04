@@ -53,6 +53,8 @@ public:
 	void registerUser(string username, string password);
 
 	void openSession(string username);
+	
+	void passiveOpenSession(string callingUser); 
 
 	void openRoom(string room);
 
