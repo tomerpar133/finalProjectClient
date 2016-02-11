@@ -45,12 +45,12 @@ int UDPSocket::sendTo(string msg, string ip, int port){
 	bzero((char*)&senderAddress, sizeof(senderAddress));
 	senderAddress.sin_family = (short)AF_INET;
 	senderAddress.sin_port = htons(port);
-
+	senderAddress.sin_addr.s_addr = inet_addr(ip.data());
 
 	// call send to and sent the message to the destination address
 	return sendto(socketFd,
 				  msg.data(),
-				  msg.length(),
+				  msg.length() + 1,
 				  0,
 				  (struct sockaddr*)&senderAddress,
 				  sizeof(senderAddress));

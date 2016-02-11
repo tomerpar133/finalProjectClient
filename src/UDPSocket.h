@@ -13,6 +13,7 @@
 #include <strings.h>
 #include <stdio.h>
 #include <iostream>
+#include "TCPMessengerProtocol.h"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ public:
 	 * if no port is specified a default port 9999 is set.
 	 * this UDP socket can be used both for server socket and client socket
 	 */
-	UDPSocket(int port = 9999);
+	UDPSocket(int port = PEER_PORT);
 	/**
 	 * reads an incoming message from the UDP socket.
 	 * the message is copied into the given buffer up to the specified length

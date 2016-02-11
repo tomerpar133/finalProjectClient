@@ -75,7 +75,6 @@ TCPSocket::TCPSocket(string peerIp, int port){
 		tv.tv_sec = 2;
 		tv.tv_usec = 0;
 		setsockopt(socketFd, SOL_SOCKET, SO_RCVTIMEO, (char*)&tv, sizeof(struct timeval));
-		cout << "Socket now with timeout" << endl;
 	}
 }
 

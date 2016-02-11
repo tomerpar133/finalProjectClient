@@ -104,7 +104,7 @@ void Client::login(string username, string password)
 	{
 		if (this->username == "")
 		{
-			cout << "{ Login user: " << username << ", Pass: " << password << " }" << endl;
+			cout << "{ Login user: " << username << " }" << endl;
 			ClientUtils::sendCommand(this->tcpServer, LOGIN);
 			ClientUtils::sendData(this->tcpServer, username);
 			ClientUtils::sendData(this->tcpServer, password);
@@ -138,7 +138,7 @@ void Client::registerUser(string username, string password)
 	{
 		if (this->username == "")
 		{
-			cout << "{ Register user: " << username << ", Pass: " << password << " }" << endl;
+			cout << "{ Register user: " << username << " }" << endl;
 			ClientUtils::sendCommand(this->tcpServer, REGISTER);
 			ClientUtils::sendData(this->tcpServer, username);
 			ClientUtils::sendData(this->tcpServer, password);
@@ -302,7 +302,8 @@ void Client::disconnectFromServer()
 		this->connectionStatus = NOT_CONNECTED;
 		ClientUtils::sendCommand(this->tcpServer, EXIT);
 		this->status = "Not connected";
-	
+		this->username = "";
+		
 		if (this->serverListener)
 		{
 			delete this->serverListener;

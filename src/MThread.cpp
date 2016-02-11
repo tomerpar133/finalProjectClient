@@ -29,7 +29,6 @@ MThread::~MThread(){
 	if (threadId>0){
 		//kills the thread if exist
 		pthread_cancel(threadId);
-		printf("Thread was canceled\n");
 	}
 }
 
