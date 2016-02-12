@@ -71,8 +71,8 @@ string ClientUtils::readData(UDPSocket* peer){
 void ClientUtils::sendData(UDPSocket* sender, string peerIp, string msg){
 	// send string to socket
 	int msgLength = htonl(msg.length() + 1);
-	sender->sendTo((char*)&msgLength, peerIp, PEER_PORT);
-	sender->sendTo(msg.c_str(), peerIp, PEER_PORT);
+	sender->sendTo((char*)&msgLength, sizeof(int), peerIp, PEER_PORT);
+	sender->sendTo(msg.c_str(), msg.length() + 1, peerIp, PEER_PORT);
 }
 
 bool ClientUtils::repliedSuccess(TCPSocket* socket)

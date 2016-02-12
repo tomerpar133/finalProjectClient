@@ -41,7 +41,7 @@ public:
 	/**
 	 * sends the given message as a UDP message to the given address specified by IP and port
 	 */
-	int sendTo(string msg, string ip, int port);
+	int sendTo(const char* msg, size_t msgSize, string ip, int port);
 
 	/**
 	 * close the UDP socket

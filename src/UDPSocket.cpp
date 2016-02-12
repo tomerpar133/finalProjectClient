@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -40,7 +41,7 @@ int UDPSocket::recv(char* buffer, int length){
 					&senderAddresLength);
 }
 
-int UDPSocket::sendTo(string msg, string ip, int port){
+int UDPSocket::sendTo(const char* msg, size_t msgSize, string ip, int port){
 	// create an address struct for the destination
 	bzero((char*)&senderAddress, sizeof(senderAddress));
 	senderAddress.sin_family = (short)AF_INET;
@@ -49,8 +50,8 @@ int UDPSocket::sendTo(string msg, string ip, int port){
 
 	// call send to and sent the message to the destination address
 	return sendto(socketFd,
-				  msg.data(),
-				  msg.length() + 1,
+				  msg,
+				  msgSize,
 				  0,
 				  (struct sockaddr*)&senderAddress,
 				  sizeof(senderAddress));

@@ -12,6 +12,7 @@
 #include "Client.h"
 
 using namespace std;
+
 typedef void (*commandHandler)();
 map<string, commandHandler> commandsMap;
 Client client;
